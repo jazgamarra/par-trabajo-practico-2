@@ -1,8 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Panel de Administración</title>
+  <style>
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      padding-top: 60px; /* para evitar que el contenido quede debajo del header */
+    }
+    header {
+      background-color: #7d3c98; /* lila agradable */
+      color: #fff;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 30px;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+    header p {
+      font-size: 0.9rem;
+    }
+    header a {
+      color: #f9d1ff; /* lila claro */
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.3s ease;
+    }
+    header a:hover {
+      color: #d38aff; /* lila más intenso */
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      min-height: calc(100vh - 80px);
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -10,7 +59,6 @@
       <p>Bienvenido, {{ session.usuario_nombre }} |
         <a href="{{ url_for('auth_bp.logout') }}">Cerrar sesión</a></p>
     {% endif %}
-    <hr>
   </header>
 
   <main>

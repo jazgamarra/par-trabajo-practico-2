@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background-color: #f0f4f8;
+    font-family: Arial, sans-serif;
+  }
+  .report-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
+  }
+  h2, h3 {
+    color: #7D3C98;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  h3 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #4a3f59;
+  }
+  thead {
+    background-color: #d7c9e3;
+  }
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #c1b0d3;
+    text-align: left;
+  }
+  th {
+    color: #5f3e84;
+  }
+  p.total {
+    font-weight: 700;
+    margin-top: 10px;
+  }
+  a.volver-menu {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7D3C98;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a.volver-menu:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="report-container">
+  <h2>Reporte de Movimientos Financieros del Mes</h2>
+
+  <h3>Compras</h3>
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Proveedor</th><th>Producto</th><th>Cantidad</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      {% for c in compras %}
+      <tr>
+        <td>{{ c.fecha }}</td>
+        <td>{{ c.proveedor.nombre }}</td>
+        <td>{{ c.producto.nombre }}</td>
+        <td>{{ c.cantidad }}</td>
+        <td>{{ c.total }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="total">Total de Compras: {{ total_compras }}</p>
+
+  <h3>Ventas</h3>
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Producto</th><th>Cantidad</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      {% for v in ventas %}
+      <tr>
+        <td>{{ v.fecha }}</td>
+        <td>{{ v.producto.nombre }}</td>
+        <td>{{ v.cantidad }}</td>
+        <td>{{ v.total }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="total">Total de Ventas: {{ total_ventas }}</p>
+
+  <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
+</div>
+{% endblock %}

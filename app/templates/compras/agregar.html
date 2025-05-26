@@ -18,14 +18,13 @@
     color: #7D3C98;
     margin-bottom: 25px;
   }
-  label {
+  label, p {
     display: block;
     margin-bottom: 6px;
     color: #6f4d86;
     font-weight: 600;
   }
-  input[type="text"],
-  input[type="number"] {
+  select, input[type="number"] {
     width: 100%;
     padding: 9px 12px;
     margin-bottom: 18px;
@@ -65,28 +64,38 @@
 </style>
 
 <div class="form-container">
-  <h2>Agregar Producto</h2>
+  <h2>Agregar Compra</h2>
   <form method="POST">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
+    <p>
+      <label for="proveedor_id">Proveedor:</label>
+      <select id="proveedor_id" name="proveedor_id">
+        {% for p in proveedores %}
+          <option value="{{ p.id }}">{{ p.nombre }}</option>
+        {% endfor %}
+      </select>
+    </p>
 
-    <label for="descripcion">Descripción:</label>
-    <input type="text" id="descripcion" name="descripcion">
+    <p>
+      <label for="producto_id">Producto:</label>
+      <select id="producto_id" name="producto_id">
+        {% for p in productos %}
+          <option value="{{ p.id }}">{{ p.nombre }}</option>
+        {% endfor %}
+      </select>
+    </p>
 
-    <label for="unidades">Unidades:</label>
-    <input type="number" id="unidades" name="unidades" required>
+    <p>
+      <label for="cantidad">Cantidad:</label>
+      <input type="number" id="cantidad" name="cantidad" required>
+    </p>
 
-    <label for="costo">Costo:</label>
-    <input type="number" id="costo" name="costo" step="0.01" required>
-
-    <label for="precio">Precio:</label>
-    <input type="number" id="precio" name="precio" step="0.01" required>
-
-    <label for="categoria">Categoría:</label>
-    <input type="text" id="categoria" name="categoria">
+    <p>
+      <label for="precio_unitario">Precio unitario:</label>
+      <input type="number" id="precio_unitario" name="precio_unitario" value="1000" step="1000" required>
+    </p>
 
     <button type="submit">Guardar</button>
-    <a href="{{ url_for('productos_bp.listado') }}" class="cancel-link">Cancelar</a>
   </form>
+  <a href="{{ url_for('compras_bp.listado') }}" class="cancel-link">← Cancelar</a>
 </div>
 {% endblock %}

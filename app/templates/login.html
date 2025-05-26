@@ -1,14 +1,80 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Login</h2>
+<style>
+  body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+  }
 
-{% if error %}
-  <p style="color: red;">{{ error }}</p>
-{% endif %}
+  .login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
 
-<form action="{{ url_for('auth_bp.do_login') }}" method="POST">
-  <p><label>Usuario:</label><input type="text" name="nombre" required></p>
-  <p><label>Contraseña:</label><input type="password" name="contrasenha" required></p>
-  <button type="submit">Iniciar sesión</button>
-</form>
+  h2 {
+    text-align: center;
+    color: #333333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333333;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+
+  button {
+    width: 100%;
+    background-color: #F7A9BC; /* rosado pastel más intenso */
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 1 !important; /* ¡siempre 100% opaco! */
+  }
+
+  button:hover {
+    background-color: #f58fa8; /* un tono un poco más oscuro al pasar el mouse */
+  }
+
+  p.error {
+    color: #FF6B6B;
+    text-align: center;
+  }
+</style>
+
+<div class="login-container">
+  <h2>Login</h2>
+
+  {% if error %}
+    <p class="error">{{ error }}</p>
+  {% endif %}
+
+  <form action="{{ url_for('auth_bp.do_login') }}" method="POST">
+    <p>
+      <label>Usuario:</label>
+      <input type="text" name="nombre" required>
+    </p>
+    <p>
+      <label>Contraseña:</label>
+      <input type="password" name="contrasenha" required>
+    </p>
+    <button type="submit">Iniciar sesión</button>
+  </form>
+</div>
+
 {% endblock %}

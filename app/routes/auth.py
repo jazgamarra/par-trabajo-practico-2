@@ -23,7 +23,7 @@ def do_login():
         session['usuario_id'] = user.id
         session['usuario_nombre'] = user.nombre
         session['admin'] = user.administrador
-        return redirect('/productos')
+        return redirect(url_for('dashboard_bp.dashboard'))  # Ahora redirige al dashboard
     return render_template('login.html', error="Usuario o contraseña incorrectos")
 
 @auth_bp.route('/logout')

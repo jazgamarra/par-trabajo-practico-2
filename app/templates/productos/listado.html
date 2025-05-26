@@ -1,20 +1,121 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Productos</h2>
-<a href="{{ url_for('productos_bp.agregar') }}">Agregar nuevo producto</a>
-<table>
-  <tr><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
-  {% for p in productos %}
-  <tr>
-    <td>{{ p.nombre }}</td>
-    <td>{{ p.precio }}</td>
-    <td>
-      <a href="{{ url_for('productos_bp.editar', id=p.id) }}">Editar</a>
-      <form action="{{ url_for('productos_bp.eliminar', id=p.id) }}" method="POST" style="display:inline;">
-        <button type="submit">Eliminar</button>
-      </form>
-    </td>
-  </tr>
-  {% endfor %}
-</table>
+<style>
+  body {
+    background-color: #f0f4f8;
+    font-family: Arial, sans-serif;
+  }
+  .list-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
+  }
+  h2 {
+    text-align: center;
+    color: #7D3C98;
+    margin-bottom: 20px;
+  }
+  .btn-agregar {
+    background-color: #9B59B6;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(155, 89, 182, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .btn-agregar:hover {
+    background-color: #7D3C98;
+    box-shadow: 0 6px 16px rgba(125, 60, 152, 0.7);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #4a3f59;
+  }
+  thead {
+    background-color: #d7c9e3;
+  }
+  th, td {
+    padding: 12px 14px;
+    border: 1px solid #c1b0d3;
+    text-align: left;
+  }
+  th {
+    color: #5f3e84;
+  }
+  td a.editar-link {
+    background-color: #9B59B6;
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 22px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(155, 89, 182, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  td a.editar-link:hover {
+    background-color: #7D3C98;
+    box-shadow: 0 6px 16px rgba(125, 60, 152, 0.7);
+  }
+  td form {
+    display: inline;
+  }
+  td button.eliminar-btn {
+    background-color: #E74C3C;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(231, 76, 60, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  td button.eliminar-btn:hover {
+    background-color: #C0392B;
+    box-shadow: 0 5px 12px rgba(192, 57, 43, 0.7);
+  }
+  a.volver-menu {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7D3C98;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a.volver-menu:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="list-container">
+  <h2>Listado de Productos</h2>
+  <a href="{{ url_for('productos_bp.agregar') }}" class="btn-agregar">Agregar Producto</a>
+  <table>
+    <thead>
+      <tr><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+      {% for p in productos %}
+      <tr>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.precio }}</td>
+        <td>
+          <a href="{{ url_for('productos_bp.editar', id=p.id) }}" class="editar-link">Editar</a>
+          <form action="{{ url_for('productos_bp.eliminar', id=p.id) }}" method="POST">
+            <button type="submit" class="eliminar-btn">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
+</div>
 {% endblock %}

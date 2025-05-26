@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background-color: #f0f4f8;
+    font-family: Arial, sans-serif;
+  }
+  .report-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
+  }
+  h2 {
+    text-align: center;
+    color: #7D3C98;
+    margin-bottom: 25px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #4a3f59;
+  }
+  thead {
+    background-color: #d7c9e3;
+  }
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #c1b0d3;
+    text-align: left;
+  }
+  th {
+    color: #5f3e84;
+  }
+  a.volver-menu {
+    display: inline-block;
+    margin-top: 30px;
+    color: #7D3C98;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  a.volver-menu:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="report-container">
+  <h2>Reporte de Inventario</h2>
+  <table>
+    <thead>
+      <tr><th>Nombre</th><th>Descripción</th><th>Categoría</th><th>Unidades</th><th>Precio</th></tr>
+    </thead>
+    <tbody>
+      {% for p in productos %}
+      <tr>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.descripcion }}</td>
+        <td>{{ p.categoria }}</td>
+        <td>{{ p.unidades }}</td>
+        <td>{{ p.precio }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
+</div>
+{% endblock %}
