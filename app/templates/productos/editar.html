@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Editar Producto</h2>
+
+<form method="POST">
+  <p>
+    <label>Nombre:</label>
+    <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+  </p>
+  <p>
+    <label>Descripción:</label>
+    <input type="text" name="descripcion" value="{{ producto.descripcion }}">
+  </p>
+  <p>
+    <label>Unidades:</label>
+    <input type="number" name="unidades" value="{{ producto.unidades }}" required>
+  </p>
+  <p>
+    <label>Costo:</label>
+    <input type="number" name="costo" step="0.01" value="{{ producto.costo }}" required>
+  </p>
+  <p>
+    <label>Precio:</label>
+    <input type="number" name="precio" step="0.01" value="{{ producto.precio }}" required>
+  </p>
+  <p>
+    <label>Categoría:</label>
+    <input type="text" name="categoria" value="{{ producto.categoria }}">
+  </p>
+
+  <button type="submit">Actualizar</button>
+  <a href="{{ url_for('productos_bp.listado') }}">Cancelar</a>
+</form>
+
+{% endblock %}

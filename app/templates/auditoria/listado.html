@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Auditoría de Productos</h2>
+<table border="1">
+  <tr>
+    <th>Producto</th>
+    <th>Descripción</th>
+    <th>Unidades</th>
+    <th>Costo</th>
+    <th>Precio</th>
+    <th>Categoría</th>
+    <th>Usuario</th>
+    <th>Acción</th>
+  </tr>
+  {% for a in auditorias %}
+  <tr>
+    <td>{{ a.nombreProducto }}</td>
+    <td>{{ a.descripcionProducto }}</td>
+    <td>{{ a.unidadesProducto }}</td>
+    <td>{{ a.costoProducto }}</td>
+    <td>{{ a.precioProducto }}</td>
+    <td>{{ a.categoriaProducto }}</td>
+    <td>{{ a.nombreUsuario }}</td>
+    <td>{{ a.descripcionAccion }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{{ url_for('productos_bp.listado') }}">← Volver</a>
+
+{% endblock %}

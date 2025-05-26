@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administración</title>
+</head>
+<body>
+  <header>
+    {% if session.usuario_nombre %}
+      <p>Bienvenido, {{ session.usuario_nombre }} |
+        <a href="{{ url_for('auth_bp.logout') }}">Cerrar sesión</a></p>
+    {% endif %}
+    <hr>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

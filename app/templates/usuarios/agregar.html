@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Agregar Usuario</h2>
+
+<form method="POST">
+  <p><label>Nombre:</label><input type="text" name="nombre" required></p>
+  <p><label>Contraseña:</label><input type="password" name="contrasenha" required></p>
+  <p>
+    <label>Rol:</label>
+    <select name="administrador">
+      <option value="0">Usuario</option>
+      <option value="1">Administrador</option>
+    </select>
+  </p>
+  <button type="submit">Guardar</button>
+  <a href="{{ url_for('usuarios_bp.listado') }}">Cancelar</a>
+</form>
+{% endblock %}
