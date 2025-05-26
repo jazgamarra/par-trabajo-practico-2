@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Clientes</h2>
+<a href="{{ url_for('clientes_bp.agregar') }}">Agregar nuevo cliente</a>
+<table border="1">
+  <tr><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Dirección</th><th>Acciones</th></tr>
+  {% for c in clientes %}
+  <tr>
+    <td>{{ c.nombre }}</td>
+    <td>{{ c.correo }}</td>
+    <td>{{ c.telefono }}</td>
+    <td>{{ c.direccion }}</td>
+    <td>
+      <a href="{{ url_for('clientes_bp.editar', id=c.id) }}">Editar</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<a href="{{ url_for('productos_bp.listado') }}">← Volver</a>
+{% endblock %}

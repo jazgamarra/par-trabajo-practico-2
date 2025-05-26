@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Agregar Cliente</h2>
+
+<form method="POST">
+  <p><label>Nombre:</label><input type="text" name="nombre" required></p>
+  <p><label>Correo:</label><input type="email" name="correo" required></p>
+  <p><label>Teléfono:</label><input type="text" name="telefono"></p>
+  <p><label>Dirección:</label><input type="text" name="direccion"></p>
+  <button type="submit">Guardar</button>
+  <a href="{{ url_for('clientes_bp.listado') }}">Cancelar</a>
+</form>
+{% endblock %}

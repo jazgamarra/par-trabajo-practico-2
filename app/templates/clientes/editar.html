@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Editar Cliente</h2>
+
+<form method="POST">
+  <p><label>Nombre:</label><input type="text" name="nombre" value="{{ cliente.nombre }}" required></p>
+  <p><label>Correo:</label><input type="email" name="correo" value="{{ cliente.correo }}" required></p>
+  <p><label>Teléfono:</label><input type="text" name="telefono" value="{{ cliente.telefono }}"></p>
+  <p><label>Dirección:</label><input type="text" name="direccion" value="{{ cliente.direccion }}"></p>
+  <button type="submit">Actualizar</button>
+  <a href="{{ url_for('clientes_bp.listado') }}">Cancelar</a>
+</form>
+{% endblock %}
