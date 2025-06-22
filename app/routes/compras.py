@@ -12,8 +12,25 @@ compras_bp = Blueprint('compras_bp', __name__)
 def listado():
     if 'usuario_id' not in session:
         return redirect('/')
-    compras = Compra.query.all()
-    return render_template('compras/listado.html', compras=compras)
+
+    fecha_inicio = request.args.get('fecha_inicio')
+    fecha_fin = request.args.get('fecha_fin')
+
+    compras = Compra.query
+
+    if fecha_inicio and fecha_fin:
+        try:
+            desde = datetime.strptime(fecha_inicio, '%Y-%m-%d')
+            hasta = datetime.strptime(fecha_fin, '%Y-%m-%d')
+            hasta = hasta.replace(hour=23, minute=59, second=59)
+            compras = compras.filter(Compra.fecha >= desde, Compra.fecha <= hasta)
+        except ValueError:
+            pass
+
+    compras = compras.all()
+    total = sum(c.total for c in compras)
+
+    return render_template('compras/listado.html', compras=compras, total=total)
 
 @compras_bp.route('/agregar', methods=['GET', 'POST'])
 def agregar():
@@ -29,17 +46,17 @@ def agregar():
             proveedor_id=request.form['proveedor_id'],
             producto_id=request.form['producto_id'],
             cantidad=int(request.form['cantidad']),
-            precio_unitario=float(request.form['precio_unitario']),
-            total=float(request.form['cantidad']) * float(request.form['precio_unitario'])
+            precio_unitario=int(request.form['precio_unitario']),
+            total=int(request.form['cantidad']) * int(request.form['precio_unitario'])
         )
         db.session.add(nueva_compra)
 
-        # Actualizar inventario
+        # Actualizar inventario y precio de compra del producto
         producto = Producto.query.get(nueva_compra.producto_id)
-        #producto.stock += nueva_compra.cantidad
         producto.unidades += nueva_compra.cantidad
+        producto.precio_compra = nueva_compra.precio_unitario
 
-        # Auditoria
+        # Auditoría
         aud = Auditoria(
             nombreProducto=producto.nombre,
             descripcionProducto=f"Compra de {nueva_compra.cantidad} unidades",
@@ -57,4 +74,5 @@ def agregar():
 
         return redirect(url_for('compras_bp.listado'))
 
-    return render_template('compras/agregar.html', proveedores=proveedores, productos=productos)
+    precios_compra = {str(p.id): p.precio_compra for p in productos}
+    return render_template('compras/agregar.html', proveedores=proveedores, productos=productos, precios_compra=precios_compra)

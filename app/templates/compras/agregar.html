@@ -91,11 +91,34 @@
 
     <p>
       <label for="precio_unitario">Precio unitario:</label>
-      <input type="number" id="precio_unitario" name="precio_unitario" value="1000" step="1000" required>
+      <input type="number" id="precio_unitario" name="precio_unitario" value="" step="1000" required>
     </p>
 
     <button type="submit">Guardar</button>
   </form>
   <a href="{{ url_for('compras_bp.listado') }}" class="cancel-link">← Cancelar</a>
 </div>
+
+<script>
+  // Diccionario producto_id -> precio_compra desde backend
+  const preciosCompra = {{ precios_compra | tojson }};
+
+  const productoSelect = document.getElementById('producto_id');
+  const precioInput = document.getElementById('precio_unitario');
+
+  function actualizarPrecio() {
+    const productoId = productoSelect.value;
+    const precio = preciosCompra[productoId];
+    if (precio !== undefined) {
+      precioInput.value = precio;
+    } else {
+      precioInput.value = "";
+    }
+  }
+
+  productoSelect.addEventListener('change', actualizarPrecio);
+
+  // Carga inicial
+  actualizarPrecio();
+</script>
 {% endblock %}

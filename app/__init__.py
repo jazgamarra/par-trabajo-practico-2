@@ -23,7 +23,7 @@ def create_app():
     from app.routes.ventas import ventas_bp
     from app.routes.reportes import reportes_bp
     from app.routes.dashboard import dashboard_bp
-    
+      
     app.register_blueprint(dashboard_bp, url_prefix='/dashboard')   
     app.register_blueprint(reportes_bp, url_prefix='/reportes')
     app.register_blueprint(ventas_bp, url_prefix='/ventas')    

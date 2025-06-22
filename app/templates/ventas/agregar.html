@@ -76,17 +76,43 @@
     </p>
 
     <p>
+      <label for="cliente_id">Cliente:</label>
+      <select id="cliente_id" name="cliente_id" required>
+        <option value="">-- Seleccioná un cliente --</option>
+        {% for c in clientes %}
+          <option value="{{ c.id }}">{{ c.nombre }}</option>
+        {% endfor %}
+      </select>
+    </p>
+
+    <p>
       <label for="cantidad">Cantidad:</label>
       <input type="number" id="cantidad" name="cantidad" required>
     </p>
 
     <p>
       <label for="precio_unitario">Precio unitario:</label>
-      <input type="number" id="precio_unitario" name="precio_unitario" value="1000" step="1000" required>
+      <input type="number" id="precio_unitario" name="precio_unitario" value="" step="1000" required>
     </p>
 
     <button type="submit">Guardar</button>
   </form>
   <a href="{{ url_for('ventas_bp.listado') }}" class="cancel-link">← Cancelar</a>
 </div>
+
+<script>
+  const preciosVenta = {{ precios_venta | tojson }};
+
+  const productoSelect = document.getElementById('producto_id');
+  const precioInput = document.getElementById('precio_unitario');
+
+  function actualizarPrecio() {
+    const productoId = productoSelect.value;
+    const precio = preciosVenta[productoId];
+    precioInput.value = precio !== undefined ? precio : '';
+  }
+
+  productoSelect.addEventListener('change', actualizarPrecio);
+  actualizarPrecio();
+</script>
 {% endblock %}

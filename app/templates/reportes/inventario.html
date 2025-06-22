@@ -34,6 +34,10 @@
   th {
     color: #5f3e84;
   }
+  tfoot td {
+    font-weight: bold;
+    background-color: #f3eafc;
+  }
   a.volver-menu {
     display: inline-block;
     margin-top: 30px;
@@ -50,20 +54,38 @@
   <h2>Reporte de Inventario</h2>
   <table>
     <thead>
-      <tr><th>Nombre</th><th>Descripción</th><th>Categoría</th><th>Unidades</th><th>Precio</th></tr>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Unidades</th>
+        <th>Precio de Compra</th>
+        <th>Valor Total</th>
+      </tr>
     </thead>
     <tbody>
+      {% set total_general = [0] %}
       {% for p in productos %}
+      {% set valor = p.precio_compra * p.unidades %}
+      {% set _ = total_general.__setitem__(0, total_general[0] + valor) %}
       <tr>
         <td>{{ p.nombre }}</td>
         <td>{{ p.descripcion }}</td>
         <td>{{ p.categoria }}</td>
         <td>{{ p.unidades }}</td>
-        <td>{{ p.precio }}</td>
+        <td>{{ "{:,.0f}".format(p.precio_compra).replace(",", ".") }}</td>
+        <td>{{ "{:,.0f}".format(valor).replace(",", ".") }}</td>
       </tr>
       {% endfor %}
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5" style="text-align: right;">Total del Inventario:</td>
+        <td>{{ "{:,.0f}".format(total_general[0]).replace(",", ".") }}</td>
+      </tr>
+    </tfoot>
   </table>
+
   <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
 </div>
 {% endblock %}

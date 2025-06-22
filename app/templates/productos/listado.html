@@ -99,16 +99,22 @@
   <a href="{{ url_for('productos_bp.agregar') }}" class="btn-agregar">Agregar Producto</a>
   <table>
     <thead>
-      <tr><th>Nombre</th><th>Precio</th><th>Acciones</th></tr>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio de Compra</th>
+        <th>Precio de Venta</th>
+        <th>Acciones</th>
+      </tr>
     </thead>
     <tbody>
       {% for p in productos %}
       <tr>
         <td>{{ p.nombre }}</td>
-        <td>{{ p.precio }}</td>
+        <td>{{ "{:,.0f}".format(p.precio_compra).replace(",", ".") }}</td>
+        <td>{{ "{:,.0f}".format(p.precio_venta).replace(",", ".") }}</td>
         <td>
           <a href="{{ url_for('productos_bp.editar', id=p.id) }}" class="editar-link">Editar</a>
-          <form action="{{ url_for('productos_bp.eliminar', id=p.id) }}" method="POST">
+          <form action="{{ url_for('productos_bp.eliminar', id=p.id) }}" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este producto?');">
             <button type="submit" class="eliminar-btn">Eliminar</button>
           </form>
         </td>

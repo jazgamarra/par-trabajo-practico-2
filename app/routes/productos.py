@@ -22,8 +22,8 @@ def agregar():
             nombre=request.form['nombre'],
             descripcion=request.form['descripcion'],
             unidades=int(request.form['unidades']),
-            costo=float(request.form['costo']),
-            precio=float(request.form['precio']),
+            precio_compra=float(request.form['precio_compra']),
+            precio_venta=float(request.form['precio_venta']),
             categoria=request.form['categoria']
         )
         db.session.add(nuevo)
@@ -33,8 +33,8 @@ def agregar():
             nombreProducto=nuevo.nombre,
             descripcionProducto=nuevo.descripcion,
             unidadesProducto=nuevo.unidades,
-            costoProducto=nuevo.costo,
-            precioProducto=nuevo.precio,
+            costoProducto=nuevo.precio_compra,
+            precioProducto=nuevo.precio_venta,
             categoriaProducto=nuevo.categoria,
             idUsuario=session['usuario_id'],
             nombreUsuario=session['usuario_nombre'],
@@ -58,8 +58,8 @@ def editar(id):
         producto.nombre = request.form['nombre']
         producto.descripcion = request.form['descripcion']
         producto.unidades = int(request.form['unidades'])
-        producto.costo = float(request.form['costo'])
-        producto.precio = float(request.form['precio'])
+        producto.precio_compra = int(request.form['precio_compra'])
+        producto.precio_venta = int(request.form['precio_venta'])
         producto.categoria = request.form['categoria']
         db.session.commit()
 
@@ -67,8 +67,8 @@ def editar(id):
             nombreProducto=producto.nombre,
             descripcionProducto=producto.descripcion,
             unidadesProducto=producto.unidades,
-            costoProducto=producto.costo,
-            precioProducto=producto.precio,
+            costoProducto=producto.precio_compra,
+            precioProducto=producto.precio_venta,
             categoriaProducto=producto.categoria,
             idUsuario=session['usuario_id'],
             nombreUsuario=session['usuario_nombre'],
@@ -92,8 +92,8 @@ def eliminar(id):
         nombreProducto=producto.nombre,
         descripcionProducto=producto.descripcion,
         unidadesProducto=producto.unidades,
-        costoProducto=producto.costo,
-        precioProducto=producto.precio,
+        costoProducto=producto.precio_compra,
+        precioProducto=producto.precio_venta,
         categoriaProducto=producto.categoria,
         idUsuario=session['usuario_id'],
         nombreUsuario=session['usuario_nombre'],

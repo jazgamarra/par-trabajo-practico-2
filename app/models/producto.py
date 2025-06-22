@@ -5,6 +5,6 @@ class Producto(db.Model):
     nombre = db.Column(db.String(50))
     descripcion = db.Column(db.String(50))
     unidades = db.Column(db.Integer)
-    costo = db.Column(db.Float)
-    precio = db.Column(db.Float)
+    precio_compra = db.Column(db.Integer)  
+    precio_venta = db.Column(db.Integer)    
     categoria = db.Column(db.String(50))

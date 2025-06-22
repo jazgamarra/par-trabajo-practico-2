@@ -71,12 +71,12 @@
         <td>{{ c.proveedor.nombre }}</td>
         <td>{{ c.producto.nombre }}</td>
         <td>{{ c.cantidad }}</td>
-        <td>{{ c.total }}</td>
+        <td>{{ "{:,.0f}".format(c.total).replace(",", ".") }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  <p class="total">Total de Compras: {{ total_compras }}</p>
+  <p class="total">Total de Compras: {{ "{:,.0f}".format(total_compras).replace(",", ".") }}</p>
 
   <h3>Ventas</h3>
   <table>
@@ -89,12 +89,12 @@
         <td>{{ v.fecha }}</td>
         <td>{{ v.producto.nombre }}</td>
         <td>{{ v.cantidad }}</td>
-        <td>{{ v.total }}</td>
+        <td>{{ "{:,.0f}".format(v.total).replace(",", ".") }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  <p class="total">Total de Ventas: {{ total_ventas }}</p>
+  <p class="total">Total de Ventas: {{ "{:,.0f}".format(total_ventas).replace(",", ".") }}</p>
 
   <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
 </div>

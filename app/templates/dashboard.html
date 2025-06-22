@@ -2,7 +2,7 @@
 {% block content %}
 <style>
   body {
-    background-color: #e8ebf0; /* gris claro suave */
+    background-color: #e8ebf0;
     font-family: Arial, sans-serif;
   }
 
@@ -25,7 +25,7 @@
     padding: 20px;
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
-    width: 180px; /* ancho fijo para control */
+    width: 180px;
   }
 
   .card:hover {
@@ -106,6 +106,24 @@
     <h3>Reporte de Movimientos</h3>
     <p>Movimientos financieros</p>
     <a href="{{ url_for('reportes_bp.reporte_movimientos') }}">Ir al Reporte</a>
+  </div>
+
+  <div class="card">
+    <h3>Productos Más Vendidos</h3>
+    <p>Ranking por cantidad de ventas</p>
+    <a href="{{ url_for('reportes_bp.productos_mas_vendidos') }}">Ir al Reporte</a>
+  </div>
+
+  <div class="card">
+    <h3>Top 15<br>Clientes</h3>
+    <p>Ranking por compras realizadas</p>
+    <a href="{{ url_for('reportes_bp.top_clientes') }}">Ir al Reporte</a>
+  </div>
+
+  <div class="card">
+    <h3>Top 15 Proveedores</h3>
+    <p>Ranking por compras realizadas</p>
+    <a href="{{ url_for('reportes_bp.top_proveedores') }}">Ir al Reporte</a>
   </div>
 </div>
 {% endblock %}

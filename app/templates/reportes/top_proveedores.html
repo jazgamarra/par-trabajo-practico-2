@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    background-color: #f9f5fc;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.1);
+    padding: 30px;
+  }
+
+  h2 {
+    text-align: center;
+    color: #7D3C98;
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+
+  label {
+    font-weight: bold;
+    color: #7D3C98;
+  }
+
+  input[type="date"] {
+    padding: 7px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    background-color: #9B59B6;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #7D3C98;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f4e7fb;
+    color: #7D3C98;
+  }
+
+  .volver {
+    display: block;
+    margin-top: 20px;
+    color: #7D3C98;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .volver:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container">
+  <h2>Top 15 Proveedores</h2>
+
+  <form method="get">
+    <label for="fecha_inicio">Desde:</label>
+    <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}">
+    <label for="fecha_fin">Hasta:</label>
+    <input type="date" name="fecha_fin" value="{{ fecha_fin }}">
+    <button type="submit">Filtrar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Proveedor</th>
+        <th>Total Comprado (Gs.)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for proveedor in proveedores %}
+      <tr>
+        <td>{{ proveedor[0] }}</td>
+        <td>{{ "{:,.0f}".format(proveedor[1]).replace(",", ".") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver">← Volver al menú principal</a>
+</div>
+{% endblock %}

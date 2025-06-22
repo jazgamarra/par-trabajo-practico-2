@@ -5,6 +5,7 @@
     background-color: #f0f4f8;
     font-family: Arial, sans-serif;
   }
+
   .list-container {
     max-width: 900px;
     margin: 40px auto;
@@ -13,6 +14,7 @@
     border-radius: 12px;
     box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
   }
+
   h2 {
     text-align: center;
     color: #7D3C98;
@@ -64,42 +66,24 @@
     box-shadow: 0 6px 16px rgba(125, 60, 152, 0.6);
   }
 
-  .btn-agregar {
-    background-color: #9B59B6;
-    color: #fff;
-    padding: 10px 22px;
-    border-radius: 24px;
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(155, 89, 182, 0.5);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  .btn-agregar:hover {
-    background-color: #7D3C98;
-    box-shadow: 0 6px 16px rgba(125, 60, 152, 0.7);
-  }
-
   table {
     width: 100%;
     border-collapse: collapse;
     color: #4a3f59;
   }
+
   thead {
     background-color: #d7c9e3;
   }
+
   th, td {
     padding: 12px 14px;
     border: 1px solid #c1b0d3;
     text-align: left;
   }
+
   th {
     color: #5f3e84;
-  }
-  tfoot td {
-    font-weight: bold;
-    background-color: #f3eafc;
   }
 
   a.volver-menu {
@@ -109,55 +93,42 @@
     font-weight: 600;
     text-decoration: none;
   }
+
   a.volver-menu:hover {
     text-decoration: underline;
   }
 </style>
 
 <div class="list-container">
-  <h2>Ventas</h2>
+  <h2>Productos Más Vendidos</h2>
 
   <form method="get" class="filtro-fechas">
     <div class="grupo-filtros">
       <label>Desde:
-        <input type="date" name="fecha_inicio" value="{{ request.args.get('fecha_inicio', '') }}" required>
+        <input type="date" name="fecha_inicio" value="{{ fecha_inicio or '' }}" required>
       </label>
       <label>Hasta:
-        <input type="date" name="fecha_fin" value="{{ request.args.get('fecha_fin', '') }}" required>
+        <input type="date" name="fecha_fin" value="{{ fecha_fin or '' }}" required>
       </label>
       <button type="submit" class="btn-filtrar">Filtrar</button>
     </div>
   </form>
 
-  <a href="{{ url_for('ventas_bp.agregar') }}" class="btn-agregar">Agregar Venta</a>
-
   <table>
     <thead>
       <tr>
-        <th>Fecha</th>
         <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio Unitario</th>
-        <th>Total</th>
+        <th>Cantidad Vendida</th>
       </tr>
     </thead>
     <tbody>
-      {% for v in ventas %}
+      {% for p in productos %}
       <tr>
-        <td>{{ v.fecha }}</td>
-        <td>{{ v.producto.nombre }}</td>
-        <td>{{ v.cantidad }}</td>
-        <td>{{ '{:,.0f}'.format(v.precio_unitario).replace(',', '.') }}</td>
-        <td>{{ '{:,.0f}'.format(v.total).replace(',', '.') }}</td>
+        <td>{{ p[0] }}</td>
+        <td>{{ p[1] }}</td>
       </tr>
       {% endfor %}
     </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="4" style="text-align: right;">Total de Ventas:</td>
-        <td>{{ '{:,.0f}'.format(total).replace(',', '.') }}</td>
-      </tr>
-    </tfoot>
   </table>
 
   <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
