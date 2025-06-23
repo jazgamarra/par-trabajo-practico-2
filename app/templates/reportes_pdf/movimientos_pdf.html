@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reporte de Movimientos</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: white; color: #333; padding: 40px; }
+    h2 { text-align: center; color: #7D3C98; margin-bottom: 25px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    thead { background-color: #f3eafc; }
+    tfoot td { font-weight: bold; background-color: #efdefd; }
+    .timestamp { text-align: right; font-size: 12px; color: #666; }
+  </style>
+</head>
+<body>
+  <h2>Reporte de Movimientos</h2>
+
+  <h3>Compras</h3>
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Proveedor</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      {% for c in compras %}
+      <tr>
+        <td>{{ c.fecha.strftime('%d/%m/%Y') }}</td>
+        <td>{{ c.proveedor.nombre }}</td>
+        <td>{{ "{:,.0f}".format(c.total).replace(",", ".") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Ventas</h3>
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Cliente</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      {% for v in ventas %}
+      <tr>
+        <td>{{ v.fecha.strftime('%d/%m/%Y') }}</td>
+        <td>{{ v.cliente.nombre }}</td>
+        <td>{{ "{:,.0f}".format(v.total).replace(",", ".") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table>
+    <tfoot>
+      <tr>
+        <td><strong>Total Compras:</strong> {{ "{:,.0f}".format(total_compras).replace(",", ".") }}</td>
+        <td><strong>Total Ventas:</strong> {{ "{:,.0f}".format(total_ventas).replace(",", ".") }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <p class="timestamp">Generado el: {{ timestamp }}</p>
+</body>
+</html>

@@ -1,8 +1,8 @@
-"""Agregar cliente_id a ventas
+"""empty message
 
-Revision ID: d8b6d082b8eb
+Revision ID: fef843ea162c
 Revises: 
-Create Date: 2025-06-20 21:40:48.578275
+Create Date: 2025-06-22 14:01:34.915024
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd8b6d082b8eb'
+revision = 'fef843ea162c'
 down_revision = None
 branch_labels = None
 depends_on = None

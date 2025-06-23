@@ -131,6 +131,14 @@
     </tbody>
   </table>
 
+  <a href="{{ url_for('reportes_bp.productos_mas_vendidos_pdf') }}" class="btn btn-outline-primary float-end" target="_blank">
+  📄 Exportar a PDF
+  </a>
+<br>
+
   <a href="{{ url_for('dashboard_bp.dashboard') }}" class="volver-menu">← Volver al menú principal</a>
 </div>
+<p style="text-align:right; font-size: 0.9em; color: #888;">
+  Generado el: {{ timestamp }}
+</p>
 {% endblock %}
