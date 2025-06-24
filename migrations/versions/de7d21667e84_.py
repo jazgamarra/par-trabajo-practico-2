@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: fef843ea162c
+Revision ID: de7d21667e84
 Revises: 
-Create Date: 2025-06-22 14:01:34.915024
+Create Date: 2025-06-24 10:45:49.137268
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fef843ea162c'
+revision = 'de7d21667e84'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -59,8 +59,8 @@ def upgrade():
     )
     op.create_table('usuario',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('nombre', sa.String(length=50), nullable=True),
-    sa.Column('contrasenha', sa.String(length=50), nullable=True),
+    sa.Column('nombre', sa.String(length=100), nullable=False),
+    sa.Column('contrasenha', sa.String(length=100), nullable=False),
     sa.Column('administrador', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
@@ -68,13 +68,11 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('fecha', sa.DateTime(), nullable=False),
     sa.Column('proveedor_id', sa.Integer(), nullable=False),
-    sa.Column('producto_id', sa.Integer(), nullable=False),
-    sa.Column('cantidad', sa.Integer(), nullable=False),
-    sa.Column('precio_unitario', sa.Integer(), nullable=False),
+    sa.Column('numero_factura', sa.String(length=20), nullable=False),
     sa.Column('total', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['producto_id'], ['producto.id'], ),
     sa.ForeignKeyConstraint(['proveedor_id'], ['proveedor.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('numero_factura')
     )
     op.create_table('venta',
     sa.Column('id', sa.Integer(), nullable=False),

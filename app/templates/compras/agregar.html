@@ -1,29 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-  body {
-    background-color: #f0f4f8;
-    font-family: Arial, sans-serif;
-  }
   .form-container {
-    max-width: 500px;
+    max-width: 900px;
     margin: 40px auto;
     background: #fff;
     padding: 30px 35px;
     border-radius: 12px;
     box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
   }
+
   h2 {
     text-align: center;
     color: #7D3C98;
     margin-bottom: 25px;
   }
+
   label, p {
     display: block;
     margin-bottom: 6px;
     color: #6f4d86;
     font-weight: 600;
   }
+
   select, input[type="number"] {
     width: 100%;
     padding: 9px 12px;
@@ -33,6 +32,23 @@
     font-size: 15px;
     color: #4a3f59;
   }
+
+  .tabla-productos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  .tabla-productos th, .tabla-productos td {
+    padding: 10px;
+    border: 1px solid #d7c9e3;
+    text-align: left;
+  }
+
+  .tabla-productos th {
+    background-color: #f1e3fa;
+  }
+
   button {
     background-color: #9B59B6;
     color: white;
@@ -46,26 +62,16 @@
     box-shadow: 0 4px 10px rgba(155, 89, 182, 0.5);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
+
   button:hover {
     background-color: #7D3C98;
     box-shadow: 0 6px 16px rgba(125, 60, 152, 0.7);
-  }
-  a.cancel-link {
-    display: inline-block;
-    margin-top: 18px;
-    color: #7D3C98;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-  }
-  a.cancel-link:hover {
-    text-decoration: underline;
   }
 </style>
 
 <div class="form-container">
   <h2>Agregar Compra</h2>
-  <form method="POST">
+  <form method="POST" id="formulario-compra">
     <p>
       <label for="proveedor_id">Proveedor:</label>
       <select id="proveedor_id" name="proveedor_id">
@@ -79,7 +85,7 @@
       <label for="producto_id">Producto:</label>
       <select id="producto_id" name="producto_id">
         {% for p in productos %}
-          <option value="{{ p.id }}">{{ p.nombre }}</option>
+          <option value="{{ p.id }}" data-precio="{{ p.precio_compra }}">{{ p.nombre }}</option>
         {% endfor %}
       </select>
     </p>
@@ -91,34 +97,107 @@
 
     <p>
       <label for="precio_unitario">Precio unitario:</label>
-      <input type="number" id="precio_unitario" name="precio_unitario" value="" step="1000" required>
+      <input type="number" id="precio_unitario" name="precio_unitario" required readonly> <!-- Aquí agregamos el atributo readonly -->
     </p>
 
-    <button type="submit">Guardar</button>
+    <button type="button" id="agregar-producto">Agregar Producto</button>
   </form>
+
+  <table class="tabla-productos" id="tabla-productos">
+    <thead>
+      <tr><th>Producto</th><th>Cantidad</th><th>Precio Unitario</th><th>Total</th><th>Acciones</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+<br>
+  <button type="submit" id="guardar-compra">Guardar Compra</button>
   <a href="{{ url_for('compras_bp.listado') }}" class="cancel-link">← Cancelar</a>
 </div>
 
 <script>
   // Diccionario producto_id -> precio_compra desde backend
   const preciosCompra = {{ precios_compra | tojson }};
-
+  const tablaProductos = document.getElementById('tabla-productos').getElementsByTagName('tbody')[0];
+  const agregarProductoButton = document.getElementById('agregar-producto');
   const productoSelect = document.getElementById('producto_id');
   const precioInput = document.getElementById('precio_unitario');
+  let productosEnCompra = [];
 
+  // Actualiza el precio unitario cuando se selecciona un producto
   function actualizarPrecio() {
     const productoId = productoSelect.value;
-    const precio = preciosCompra[productoId];
-    if (precio !== undefined) {
-      precioInput.value = precio;
-    } else {
-      precioInput.value = "";
-    }
+    const producto = productoSelect.querySelector(`option[value="${productoId}"]`);
+    const precio = producto ? producto.dataset.precio : '';
+    precioInput.value = precio;
   }
 
   productoSelect.addEventListener('change', actualizarPrecio);
+  actualizarPrecio();  // Carga el precio inicial
 
-  // Carga inicial
-  actualizarPrecio();
+  agregarProductoButton.addEventListener('click', function() {
+    const productoId = productoSelect.value;
+    const cantidad = document.getElementById('cantidad').value;
+    const precioUnitario = document.getElementById('precio_unitario').value;
+    const productoNombre = productoSelect.querySelector(`#producto_id option:checked`).text;
+
+    if (!productoId || !cantidad || !precioUnitario) {
+      alert('Por favor, completa todos los campos.');
+      return;
+    }
+
+    const total = cantidad * precioUnitario;
+    
+    productosEnCompra.push({ productoId, cantidad, precioUnitario, total, productoNombre });
+    actualizarTabla();
+
+    // Limpiar campos después de agregar
+    document.getElementById('cantidad').value = '';
+    document.getElementById('precio_unitario').value = '';
+  });
+
+  function actualizarTabla() {
+    tablaProductos.innerHTML = ''; // Limpiar tabla antes de agregar nuevas filas
+
+    productosEnCompra.forEach((producto, index) => {
+      const row = tablaProductos.insertRow();
+      row.innerHTML = `
+        <td>${producto.productoNombre}</td>
+        <td>${producto.cantidad}</td>
+        <td>${producto.precioUnitario}</td>
+        <td>${producto.total}</td>
+        <td><button type="button" onclick="eliminarProducto(${index})">Eliminar</button></td>
+      `;
+    });
+  }
+
+  function eliminarProducto(index) {
+    productosEnCompra.splice(index, 1); // Eliminar producto de la lista
+    actualizarTabla(); // Actualizar tabla después de eliminar
+  }
+
+  document.getElementById('guardar-compra').addEventListener('click', function() {
+    const proveedorId = document.getElementById('proveedor_id').value;
+
+    if (!proveedorId || productosEnCompra.length === 0) {
+      alert('Debe seleccionar un proveedor y agregar al menos un producto.');
+      return;
+    }
+
+    // Enviar datos a la base de datos
+    fetch('/compras/agregar', {
+      method: 'POST',
+      body: JSON.stringify({ proveedorId, productos: productosEnCompra }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert('Compra registrada exitosamente');
+      window.location.href = '/compras';
+    })
+    .catch(error => {
+      alert('Hubo un error al guardar la compra.');
+    });
+  });
 </script>
+
 {% endblock %}

@@ -5,6 +5,7 @@
     background-color: #f0f4f8;
     font-family: Arial, sans-serif;
   }
+
   .list-container {
     max-width: 900px;
     margin: 40px auto;
@@ -13,6 +14,7 @@
     border-radius: 12px;
     box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
   }
+
   h2 {
     text-align: center;
     color: #7D3C98;
@@ -117,6 +119,7 @@
 <div class="list-container">
   <h2>Compras</h2>
 
+  <!-- Filtro de fechas -->
   <form method="get" class="filtro-fechas">
     <div class="grupo-filtros">
       <label>Desde:
@@ -129,8 +132,10 @@
     </div>
   </form>
 
+  <!-- Botón para agregar una nueva compra -->
   <a href="{{ url_for('compras_bp.agregar') }}" class="btn-agregar">Agregar Compra</a>
 
+  <!-- Tabla de compras -->
   <table>
     <thead>
       <tr>
@@ -145,7 +150,7 @@
     <tbody>
       {% for c in compras %}
       <tr>
-        <td>{{ c.fecha }}</td>
+        <td>{{ c.fecha.strftime('%d/%m/%Y') }}</td>  <!-- Formato de fecha -->
         <td>{{ c.proveedor.nombre }}</td>
         <td>{{ c.producto.nombre }}</td>
         <td>{{ c.cantidad }}</td>

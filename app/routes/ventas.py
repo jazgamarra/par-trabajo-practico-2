@@ -5,6 +5,7 @@ from app.models.producto import Producto
 from app.models.cliente import Cliente  # NUEVO
 from app.models.auditoria import Auditoria
 from datetime import datetime
+from flask import jsonify
 
 ventas_bp = Blueprint('ventas_bp', __name__)
 
@@ -24,48 +25,32 @@ def listado():
     total = sum(v.total for v in ventas)
 
     return render_template('ventas/listado.html', ventas=ventas, total=total)
-
+# Backend (Flask)
 @ventas_bp.route('/agregar', methods=['GET', 'POST'])
 def agregar():
     if 'usuario_id' not in session:
         return redirect('/')
 
+    clientes = Cliente.query.all()
     productos = Producto.query.all()
-    clientes = Cliente.query.all()  # NUEVO
+
+    # Verifica que los productos y clientes no estén vacíos
+    print(f"Clientes: {clientes}")
+    print(f"Productos: {productos}")
 
     if request.method == 'POST':
-        nueva_venta = Venta(
-            fecha=datetime.now(),
-            producto_id=int(request.form['producto_id']),
-            cliente_id=int(request.form['cliente_id']),  # NUEVO
-            cantidad=int(request.form['cantidad']),
-            precio_unitario=int(request.form['precio_unitario']),
-            total=int(request.form['cantidad']) * int(request.form['precio_unitario'])
-        )
-        db.session.add(nueva_venta)
+        data = request.get_json()
+        cliente_id = data.get('clienteId')
+        productos_en_venta = data.get('productos')
 
-        # Actualizar inventario y precio de venta
-        producto = Producto.query.get(nueva_venta.producto_id)
-        producto.unidades -= nueva_venta.cantidad
-        producto.precio_venta = nueva_venta.precio_unitario
+        if not cliente_id or not productos_en_venta:
+            return jsonify({"error": "Campos incompletos."}), 400
 
-        # Auditoría
-        aud = Auditoria(
-            nombreProducto=producto.nombre,
-            descripcionProducto=f"Venta de {nueva_venta.cantidad} unidades",
-            unidadesProducto=nueva_venta.cantidad,
-            costoProducto=0,
-            precioProducto=nueva_venta.precio_unitario,
-            categoriaProducto="VENTA",
-            idUsuario=session['usuario_id'],
-            nombreUsuario=session['usuario_nombre'],
-            descripcionAccion='VENTA'
-        )
-        db.session.add(aud)
+        # El resto del código de la compra...
+        # Agregar la venta a la base de datos
 
-        db.session.commit()
-
-        return redirect(url_for('ventas_bp.listado'))
-
+    # Verificar que los datos a pasar al template estén correctos
     precios_venta = {str(p.id): p.precio_venta for p in productos}
-    return render_template('ventas/agregar.html', productos=productos, clientes=clientes, precios_venta=precios_venta)
+    print(f"Precios de productos: {precios_venta}")
+
+    return render_template('ventas/agregar.html', clientes=clientes, productos=productos, precios_venta=precios_venta)
