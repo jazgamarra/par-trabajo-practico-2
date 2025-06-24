@@ -1,18 +1,95 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Agregar Usuario</h2>
+<style>
+  body {
+    background-color: #f0f4f8;
+    font-family: Arial, sans-serif;
+  }
 
-<form method="POST">
-  <p><label>Nombre:</label><input type="text" name="nombre" required></p>
-  <p><label>Contraseña:</label><input type="password" name="contrasenha" required></p>
-  <p>
-    <label>Rol:</label>
-    <select name="administrador">
+  .form-container {
+    max-width: 450px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(128, 0, 128, 0.15);
+  }
+
+  h2 {
+    text-align: center;
+    color: #7D3C98;
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    color: #6f4d86;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1.5px solid #d7c9e3;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #4a3f59;
+  }
+
+  button {
+    background-color: #9B59B6;
+    color: #fff;
+    border: none;
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 24px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(155, 89, 182, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #7D3C98;
+    box-shadow: 0 6px 16px rgba(125, 60, 152, 0.7);
+  }
+
+  a.cancel-link {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #7D3C98;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  a.cancel-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="form-container">
+  <h2>Agregar Usuario</h2>
+  <form method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="contrasenha">Contraseña:</label>
+    <input type="password" id="contrasenha" name="contrasenha" required>
+
+    <label for="administrador">Rol:</label>
+    <select name="administrador" id="administrador" required>
       <option value="0">Usuario</option>
       <option value="1">Administrador</option>
     </select>
-  </p>
-  <button type="submit">Guardar</button>
-  <a href="{{ url_for('usuarios_bp.listado') }}">Cancelar</a>
-</form>
+
+    <button type="submit">Guardar</button>
+    <a href="{{ url_for('usuarios_bp.listado') }}" class="cancel-link">Cancelar</a>
+  </form>
+</div>
 {% endblock %}

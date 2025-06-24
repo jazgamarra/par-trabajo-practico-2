@@ -25,7 +25,7 @@
     padding: 20px;
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
-    width: 180px;
+    width: 220px;
   }
 
   .card:hover {
@@ -86,6 +86,11 @@
     <a href="{{ url_for('productos_bp.listado') }}">Ir a Productos</a>
   </div>
 
+  <div class="card">
+    <h3>Usuarios</h3>
+    <p>Gestión de usuarios dentro del sistema</p>
+    <a href="{{ url_for('usuarios_bp.listado') }}">Ir a Usuarios</a>
+  </div>
 </div>
 
 <h2 style="text-align: left; color: #7D3C98; margin: 20px auto; padding: 0 50px"> 
@@ -134,7 +139,7 @@
     <p>Ranking por compras realizadas</p>
     <a href="{{ url_for('reportes_bp.top_clientes') }}">Ir al Reporte</a>
   </div>
-
+<br>
   <div class="card">
     <h3>Top 15 Proveedores</h3>
     <p>Ranking por compras realizadas</p>
